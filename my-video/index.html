@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Shariah Law & The Modern World</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --bg: #0a0f1e;
+        --panel: rgba(255, 255, 255, 0.04);
+        --border: rgba(255, 255, 255, 0.09);
+        --text: #e8ecf4;
+        --muted: #9aa3b2;
+        --gold: #d4af37;
+        --blue: #4f8cff;
+        --green: #34d399;
+        --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 70px 90px;
+        opacity: 0;
+      }
+      #scene0 { opacity: 1; }
+      .scene-inner {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 34px;
+      }
+      .brand {
+        font-size: 22px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .progress {
+        display: flex;
+        gap: 10px;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+      }
+      .dot.active { background: var(--gold); }
+      .title-block {
+        margin-bottom: 30px;
+      }
+      .kicker {
+        font-size: 20px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        font-weight: 700;
+        margin-bottom: 14px;
+      }
+      h1 {
+        font-size: 78px;
+        line-height: 1.05;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      h2 {
+        font-size: 46px;
+        line-height: 1.1;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin-bottom: 12px;
+      }
+      .lede {
+        font-size: 28px;
+        line-height: 1.45;
+        color: var(--muted);
+        max-width: 1500px;
+      }
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 34px;
+        flex: 1;
+        min-height: 0;
+      }
+      .col {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 34px 38px;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+      .col.left { border-top: 4px solid var(--gold); }
+      .col.right { border-top: 4px solid var(--blue); }
+      .col-head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+      .badge {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        padding: 6px 12px;
+        border-radius: 999px;
+      }
+      .badge.left { color: var(--gold); background: rgba(212, 175, 55, 0.14); }
+      .badge.right { color: var(--blue); background: rgba(79, 140, 255, 0.14); }
+      .col h3 {
+        font-size: 30px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        flex: 1;
+      }
+      li {
+        font-size: 28px;
+        line-height: 1.4;
+        color: var(--text);
+        padding-left: 26px;
+        position: relative;
+      }
+      li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 12px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .col.left li::before { background: var(--gold); }
+      .col.right li::before { background: var(--blue); }
+      .common {
+        margin-top: 18px;
+        padding: 16px 20px;
+        border-radius: 14px;
+        background: rgba(52, 211, 153, 0.08);
+        border: 1px solid rgba(52, 211, 153, 0.25);
+        font-size: 28px;
+        line-height: 1.4;
+        color: #b7f0d8;
+      }
+      .common strong { color: var(--green); }
+      .intro-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 34px;
+        flex: 1;
+        min-height: 0;
+      }
+      .intro-card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .intro-card.left { border-left: 4px solid var(--gold); }
+      .intro-card.right { border-left: 4px solid var(--blue); }
+      .intro-card h3 { font-size: 34px; margin-bottom: 16px; }
+      .intro-card p { font-size: 28px; line-height: 1.5; color: var(--muted); }
+      .themes {
+        margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+      .theme-pill {
+        font-size: 20px;
+        padding: 10px 18px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid var(--border);
+        color: var(--text);
+      }
+      .outro {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 26px;
+        max-width: 1500px;
+      }
+      .outro h1 { font-size: 68px; }
+      .outro p { font-size: 30px; line-height: 1.5; color: var(--muted); }
+      .quote {
+        border-left: 4px solid var(--gold);
+        padding-left: 24px;
+        font-size: 32px;
+        line-height: 1.4;
+        color: var(--text);
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="96" data-width="1920" data-height="1080">
+
+      <!-- Intro -->
+      <section class="scene clip" data-hold id="scene0" data-start="0" data-duration="8" data-track-index="0">
+        <div class="scene-inner">
+          <div class="topbar">
+            <div class="brand" data-layout-ignore>Video Essay</div>
+            <div class="progress">
+              <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+          </div>
+          <div class="title-block">
+            <div class="kicker" data-layout-ignore>Shariah Law & The Modern World</div>
+            <h1>Comparing traditional Islamic frameworks<br/>with modern structural systems</h1>
+            <p class="lede" style="margin-top:18px;">A side-by-side exploration of foundations, economics, politics, society, and ethics.</p>
+          </div>
+          <div class="intro-grid">
+            <div class="intro-card left">
+              <h3>Islamic Paradigm</h3>
+              <p>Sources, objectives (Maqasid), ethics, and community duties rooted in revelation and tradition.</p>
+            </div>
+            <div class="intro-card right">
+              <h3>Modern System</h3>
+              <p>Constitutions, markets, democracies, welfare states, and corporate governance.</p>
+            </div>
+          </div>
+          <div class="themes">
+            <span class="theme-pill" data-layout-ignore>Foundations</span>
+            <span class="theme-pill" data-layout-ignore>Economics</span>
+            <span class="theme-pill" data-layout-ignore>Politics</span>
+            <span class="theme-pill" data-layout-ignore>Society</span>
+            <span class="theme-pill" data-layout-ignore>Ethics</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Foundations -->
+      <section class="scene clip" data-hold id="scene1" data-start="8" data-duration="16" data-track-index="1">
+        <div class="scene-inner">
+          <div class="topbar">
+            <div class="brand" data-layout-ignore>01 / Foundations & Objectives</div>
+            <div class="progress"><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          </div>
+          <div class="title-block">
+            <div class="kicker" data-layout-ignore>Maqasid al-Shariah</div>
+            <h2>Protecting the essentials of human life</h2>
+          </div>
+          <div class="split">
+            <div class="col left">
+              <div class="col-head"><span class="badge left" data-layout-ignore>Islamic</span><h3>Maqasid</h3></div>
+              <ul>
+                <li>Faith (Din): freedom and protection of belief</li>
+                <li>Life (Nafs): sanctity and preservation of life</li>
+                <li>Intellect (Aql): education and mental well-being</li>
+                <li>Lineage (Nasl): family and generational continuity</li>
+                <li>Property (Mal): ownership and economic security</li>
+                <li>Law serves human flourishing, not mere formalism</li>
+              </ul>
+            </div>
+            <div class="col right">
+              <div class="col-head"><span class="badge right" data-layout-ignore>Modern</span><h3>Rights & Policy</h3></div>
+              <ul>
+                <li>Constitutional rights and human dignity</li>
+                <li>Public health, safety, and security</li>
+                <li>Education and knowledge economies</li>
+                <li>Family law and child protection</li>
+                <li>Property rights and economic security</li>
+                <li>Policy judged by outcomes for people</li>
+              </ul>
+            </div>
+          </div>
+          <div class="common"><strong>Common ground:</strong> Both frameworks protect core human goods; they differ in the source of authority and method.</div>
+        </div>
+      </section>
+
+      <!-- Economics -->
+      <section class="scene clip" data-hold id="scene2" data-start="24" data-duration="16" data-track-index="2">
+        <div class="scene-inner">
+          <div class="topbar">
+            <div class="brand" data-layout-ignore>02 / Islamic Economics vs. Modern Finance</div>
+            <div class="progress"><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          </div>
+          <div class="title-block">
+            <div class="kicker" data-layout-ignore>Risk, Money, and Debt</div>
+            <h2>Asset-backed sharing vs. debt-driven banking</h2>
+          </div>
+          <div class="split">
+            <div class="col left">
+              <div class="col-head"><span class="badge left" data-layout-ignore>Islamic</span><h3>Shariah Finance</h3></div>
+              <ul>
+                <li>Riba (interest/usury) is prohibited</li>
+                <li>Money is a medium of exchange, not a commodity</li>
+                <li>Risk-sharing partnerships (Mudarabah, Musharakah)</li>
+                <li>Asset-backed trade; speculation limited</li>
+                <li>Zakat redistributes wealth; hoarding discouraged</li>
+                <li>Contracts require clarity; excessive uncertainty avoided</li>
+              </ul>
+            </div>
+            <div class="col right">
+              <div class="col-head"><span class="badge right" data-layout-ignore>Modern</span><h3>Fiat Banking</h3></div>
+              <ul>
+                <li>Fiat money and fractional-reserve banking</li>
+                <li>Interest-based lending and debt expansion</li>
+                <li>Securitization and derivatives</li>
+                <li>Consumer protection and capital ratios</li>
+                <li>Growth often debt-driven</li>
+                <li>Market regulation and central banks</li>
+              </ul>
+            </div>
+          </div>
+          <div class="common"><strong>Common ground:</strong> Both seek stability and fairness; they differ on money, risk, and debt.</div>
+        </div>
+      </section>
+
+      <!-- Politics -->
+      <section class="scene clip" data-hold id="scene3" data-start="40" data-duration="16" data-track-index="3">
+        <div class="scene-inner">
+          <div class="topbar">
+            <div class="brand" data-layout-ignore>03 / Politics & Statecraft</div>
+            <div class="progress"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          </div>
+          <div class="title-block">
+            <div class="kicker" data-layout-ignore>Consultation & Consent</div>
+            <h2>Shura and Bay'ah vs. representative democracy</h2>
+          </div>
+          <div class="split">
+            <div class="col left">
+              <div class="col-head"><span class="badge left" data-layout-ignore>Islamic</span><h3>Statecraft</h3></div>
+              <ul>
+                <li>Shura: consultation in decisions</li>
+                <li>Bay'ah: pledge and consent of governed</li>
+                <li>Khalifah as trustee, not sovereign owner</li>
+                <li>Hisbah: public accountability</li>
+                <li>Rule of law above rulers</li>
+                <li>Justice (Adl) as governing aim</li>
+              </ul>
+            </div>
+            <div class="col right">
+              <div class="col-head"><span class="badge right" data-layout-ignore>Modern</span><h3>Democracy</h3></div>
+              <ul>
+                <li>Representative democracy and elections</li>
+                <li>Social contract and popular sovereignty</li>
+                <li>Separation of powers</li>
+                <li>Constitutional limits and judicial review</li>
+                <li>Civil society and free press</li>
+                <li>Human rights frameworks</li>
+              </ul>
+            </div>
+          </div>
+          <div class="common"><strong>Common ground:</strong> Consent, consultation, and accountability appear in both.</div>
+        </div>
+      </section>
+
+      <!-- Sociology -->
+      <section class="scene clip" data-hold id="scene4" data-start="56" data-duration="16" data-track-index="4">
+        <div class="scene-inner">
+          <div class="topbar">
+            <div class="brand" data-layout-ignore>04 / Sociology & Rights</div>
+            <div class="progress"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+          </div>
+          <div class="title-block">
+            <div class="kicker" data-layout-ignore>Rights & Duties</div>
+            <h2>Individual liberty and communal obligation</h2>
+          </div>
+          <div class="split">
+            <div class="col left">
+              <div class="col-head"><span class="badge left" data-layout-ignore>Islamic</span><h3>Community</h3></div>
+              <ul>
+                <li>Individual rights with responsibilities</li>
+                <li>Fard Kifayah: communal obligations</li>
+                <li>Zakat, Sadaqah, Waqf: social safety nets</li>
+                <li>Family and neighbor rights</li>
+                <li>State limited by justice (Adl)</li>
+                <li>Dignity (Karamah) for all</li>
+              </ul>
+            </div>
+            <div class="col right">
+              <div class="col-head"><span class="badge right" data-layout-ignore>Modern</span><h3>Civil Society</h3></div>
+              <ul>
+                <li>Civil liberties and due process</li>
+                <li>Welfare state and public services</li>
+                <li>Charity and nonprofit sector</li>
+                <li>Labor rights and protections</li>
+                <li>State constrained by constitution</li>
+                <li>Anti-discrimination norms</li>
+              </ul>
+            </div>
+          </div>
+          <div class="common"><strong>Common ground:</strong> Rights plus communal duty; robust social safety nets.</div>
+        </div>
+      </section>
+
+      <!-- Ethics -->
+      <section class="scene clip" data-hold id="scene5" data-start="72" data-duration="16" data-track-index="5">
+        <div class="scene-inner">
+          <div class="topbar">
+            <div class="brand" data-layout-ignore>05 / Ethics</div>
+            <div class="progress"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
+          </div>
+          <div class="title-block">
+            <div class="kicker" data-layout-ignore>Work & Stewardship</div>
+            <h2>Excellence and trusteeship vs. governance and ESG</h2>
+          </div>
+          <div class="split">
+            <div class="col left">
+              <div class="col-head"><span class="badge left" data-layout-ignore>Islamic</span><h3>Ethics</h3></div>
+              <ul>
+                <li>Itqan: excellence in work and craft</li>
+                <li>Amanah: trustworthiness</li>
+                <li>Khilafah: stewardship of the Earth</li>
+                <li>Anti-waste; balance (Mizan)</li>
+                <li>Honesty in trade and contracts</li>
+                <li>Accountability to God and people</li>
+              </ul>
+            </div>
+            <div class="col right">
+              <div class="col-head"><span class="badge right" data-layout-ignore>Modern</span><h3>Governance</h3></div>
+              <ul>
+                <li>Corporate governance and compliance</li>
+                <li>ESG and sustainability reporting</li>
+                <li>Quality standards and audits</li>
+                <li>Environmental regulation</li>
+                <li>Stakeholder capitalism</li>
+                <li>Transparency and accountability</li>
+              </ul>
+            </div>
+          </div>
+          <div class="common"><strong>Common ground:</strong> Excellence and stewardship map to governance and ESG.</div>
+        </div>
+      </section>
+
+      <!-- Outro -->
+      <section class="scene clip" data-hold id="scene6" data-start="88" data-duration="8" data-track-index="6">
+        <div class="scene-inner">
+          <div class="topbar">
+            <div class="brand" data-layout-ignore>Conclusion</div>
+            <div class="progress"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div></div>
+          </div>
+          <div class="outro">
+            <h1>Shared ends, different foundations</h1>
+            <p>Shariah and modern systems often pursue similar human goods—justice, dignity, stability, sustainability. They differ in metaphysical foundations and institutional forms. Understanding both enables better dialogue and better policy.</p>
+            <div class="quote">“Wisdom is the lost property of the believer; wherever they find it, they are most deserving of it.”</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      function fadeIn(id, start, dur) {
+        tl.fromTo(id, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }, start);
+      }
+      function fadeOut(id, at) {
+        tl.to(id, { opacity: 0, duration: 0.7, ease: "power2.in" }, at);
+      }
+      function staggerCols(sceneId, start) {
+        tl.fromTo(sceneId + " .col.left", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: "power2.out" }, start + 0.35);
+        tl.fromTo(sceneId + " .col.right", { x: 40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: "power2.out" }, start + 0.5);
+        tl.fromTo(sceneId + " li", { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power2.out", stagger: 0.06 }, start + 0.7);
+        tl.fromTo(sceneId + " .common", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" }, start + 1.6);
+      }
+
+      // Intro
+      tl.fromTo("#scene0 .kicker", { y: 24, opacity: 1 }, { y: 0, opacity: 1, duration: 0.7, ease: "power2.out" }, 0.15);
+      tl.fromTo("#scene0 h1", { y: 30, opacity: 1 }, { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" }, 0.3);
+      tl.fromTo("#scene0 .lede", { y: 20, opacity: 1 }, { y: 0, opacity: 1, duration: 0.7, ease: "power2.out" }, 0.6);
+      tl.fromTo("#scene0 .intro-card", { y: 30, opacity: 1 }, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out", stagger: 0.15 }, 0.9);
+      tl.fromTo("#scene0 .theme-pill", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(1.6)", stagger: 0.08 }, 1.4);
+      fadeOut("#scene0", 7.2);
+
+      // Foundations
+      fadeIn("#scene1", 8, 16);
+      tl.fromTo("#scene1 .kicker, #scene1 h2", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power2.out", stagger: 0.1 }, 8.15);
+      staggerCols("#scene1", 8);
+      fadeOut("#scene1", 23.2);
+
+      // Economics
+      fadeIn("#scene2", 24, 16);
+      tl.fromTo("#scene2 .kicker, #scene2 h2", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power2.out", stagger: 0.1 }, 24.15);
+      staggerCols("#scene2", 24);
+      fadeOut("#scene2", 39.2);
+
+      // Politics
+      fadeIn("#scene3", 40, 16);
+      tl.fromTo("#scene3 .kicker, #scene3 h2", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power2.out", stagger: 0.1 }, 40.15);
+      staggerCols("#scene3", 40);
+      fadeOut("#scene3", 55.2);
+
+      // Sociology
+      fadeIn("#scene4", 56, 16);
+      tl.fromTo("#scene4 .kicker, #scene4 h2", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power2.out", stagger: 0.1 }, 56.15);
+      staggerCols("#scene4", 56);
+      fadeOut("#scene4", 71.2);
+
+      // Ethics
+      fadeIn("#scene5", 72, 16);
+      tl.fromTo("#scene5 .kicker, #scene5 h2", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power2.out", stagger: 0.1 }, 72.15);
+      staggerCols("#scene5", 72);
+      fadeOut("#scene5", 87.2);
+
+      // Outro
+      fadeIn("#scene6", 88, 8);
+      tl.fromTo("#scene6 h1", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" }, 88.15);
+      tl.fromTo("#scene6 p", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power2.out" }, 88.45);
+      tl.fromTo("#scene6 .quote", { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: "power2.out" }, 88.75);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
